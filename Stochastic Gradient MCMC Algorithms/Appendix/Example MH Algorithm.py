@@ -72,18 +72,20 @@ post = samples[burn_in:]
 
 #Plots
 
-#histogram and true posterior
-plt.hist(post,bins=50,density=True,alpha=0.6,label="MH samples after burn in")
-plt.plot(theta_vals,true_pdf,lw=2,label='True Beta posterior')
-plt.xlabel(r'$\theta$')
-plt.ylabel('Density')
-plt.legend()
-plt.show()
+fig, axes = plt.subplots(1, 2, figsize=(10, 4))
+
+#histogram + true posterior
+axes[0].hist(post, bins=40, density=True, alpha=0.5, label='MH samples')
+axes[0].plot(theta_vals, true_pdf, 'r', lw=2, label='True Beta posterior')
+axes[0].set_xlabel(r'$\theta$')
+axes[0].set_ylabel('Density')
+axes[0].legend()
 
 #trace plot
-plt.plot(samples, linewidth=0.8)
-plt.ylabel(r'$\theta$')
-plt.xlabel('Iteration')
-plt.show()
+axes[1].plot(samples, lw=0.8)
+axes[1].set_xlabel('Iteration')
+axes[1].set_ylabel(r'$\theta$')
 
+plt.tight_layout()
+plt.show()
 
