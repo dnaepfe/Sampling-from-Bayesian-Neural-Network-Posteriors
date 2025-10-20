@@ -15,6 +15,8 @@ Using the Metropolis-Hasting algorithm, we derive a sample of the posterior
 distribition. 
 """
 
+rng = np.random.default_rng(42)
+
 #prior parameters
 r = 2
 s = 2
@@ -46,13 +48,13 @@ def metropolis_hastings(num_samples, std):
     for _ in range(num_samples):
         
         # Propose new theta
-        theta_proposal = np.random.normal(theta, std)
+        theta_proposal = rng.normal(theta, std)
         
         # Compute acceptance probability
         alpha = min(1, target_density(theta_proposal) / target_density(theta))
         
         # Accept or reject
-        if np.random.rand() < alpha:
+        if rng.uniform() < alpha:
             theta = theta_proposal
         
         samples.append(theta)
@@ -87,5 +89,7 @@ axes[1].set_xlabel('Iteration')
 axes[1].set_ylabel(r'$\theta$')
 
 plt.tight_layout()
+plt.savefig("mh_example", dpi=300, bbox_inches='tight')
 plt.show()
+
 
