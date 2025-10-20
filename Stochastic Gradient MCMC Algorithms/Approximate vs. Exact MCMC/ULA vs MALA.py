@@ -1,6 +1,5 @@
 import numpy as np
 import matplotlib.pyplot as plt
-import matplotlib as mpl
 
 """
 This is an implementation of the example where we want to compare the ULA and MALA schemes for 
