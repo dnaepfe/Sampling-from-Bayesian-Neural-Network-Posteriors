@@ -53,7 +53,8 @@ def ULA(theta_0,n_iter,step_size,data,var,rng):
 def MALA(theta_0,n_iter,step_size,data,var,rng):
     samples = np.empty(n_iter)
     samples[0] = theta_0
-    
+    accepts = 0
+
     # q(theta_new | theta_old) = N(theta_old + delta/2 * grad log pi(theta_old), delta)
     def log_q(theta_new,theta_old):
         mean = theta_old + 0.5 * step_size * grad_log_pi(theta_old, var, data)
@@ -73,10 +74,12 @@ def MALA(theta_0,n_iter,step_size,data,var,rng):
         if np.log(rng.uniform()) < log_alpha:
             samples[k+1] = theta_prop
             log_pi_curr = log_pi_prop
+            accepts += 1
         else: 
             samples[k+1] = theta
-        
-    return samples
+
+    accept_rate = accepts / n_iter    
+    return accept_rate, samples
 
 #Wasserstein 2 distance for 1d Gaussians: (mu_a - mu_b)^2 + (std_a - std_b)^2
 def w2_gaussian1d(mu_a,sigma_a,mu_b,sigma_b):
@@ -103,7 +106,7 @@ def running_w2(series, mu_true, var_true, burn=1000, thin=5, every=10):
 var = 4
 theta_0 = 0
 n_iter = 10000
-step_size = 1/3000
+step_size = 1/1000
 
 #data 
 theta_true, data = simulate_data(10000,var,rng)
@@ -111,7 +114,8 @@ mu_N , sigma_N = true_posterior(data, var)
 
 #MALA & ULA samples
 samples_ULA = ULA(theta_0,n_iter,step_size,data,var,rng)
-samples_MALA =  MALA(theta_0,n_iter,step_size,data,var,rng)
+accept_rate, samples_MALA =  MALA(theta_0,n_iter,step_size,data,var,rng)
+print("Acceptance rate for MALA:", accept_rate)
 
 #W2 distances
 its_ula, w2s_ula = running_w2(samples_ULA, mu_N, sigma_N)
