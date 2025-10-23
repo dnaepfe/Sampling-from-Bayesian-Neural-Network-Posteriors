@@ -30,8 +30,8 @@ for k in range(0,n-1):
 #plot
 x = np.linspace(-3,3,200)
 plt.figure(figsize=(6,4))
-plt.hist(theta,bins=50,density=True,alpha=0.6,label = "ULA samples")
-plt.plot(x,norm.pdf(x,0,1),'r-', lw=2,label="True standard Gaussian")
+plt.hist(theta,bins=50,density=True,alpha=0.6,label = "ULA samples",color="grey",edgecolor="black", linewidth = 0.5)
+plt.plot(x,norm.pdf(x,0,1),color="steelblue", lw=2,label="True standard Gaussian")
 plt.xlabel(r"$\theta$")
 plt.ylabel("Density")
 plt.legend()

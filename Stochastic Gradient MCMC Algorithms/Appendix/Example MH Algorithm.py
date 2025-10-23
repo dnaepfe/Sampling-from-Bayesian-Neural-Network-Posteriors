@@ -1,7 +1,3 @@
-####################################################
-#### Example of the Metropolis-Hasting algorithm ###
-####################################################
-
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.stats import beta
@@ -77,19 +73,18 @@ post = samples[burn_in:]
 fig, axes = plt.subplots(1, 2, figsize=(10, 4))
 
 #histogram + true posterior
-axes[0].hist(post, bins=40, density=True, alpha=0.5, label='MH samples')
-axes[0].plot(theta_vals, true_pdf, 'r', lw=2, label='True Beta posterior')
+axes[0].hist(post, bins=40, density=True, alpha=0.5, label='MH samples', color="grey",edgecolor="black", linewidth = 0.5)
+axes[0].plot(theta_vals, true_pdf, color="steelblue", lw=2, label='True Beta posterior')
 axes[0].set_xlabel(r'$\theta$')
 axes[0].set_ylabel('Density')
 axes[0].legend()
 
 #trace plot
-axes[1].plot(samples, lw=0.8)
+axes[1].plot(samples, lw=0.8,color="steelblue")
 axes[1].set_xlabel('Iteration')
 axes[1].set_ylabel(r'$\theta$')
 
 plt.tight_layout()
 plt.savefig("mh_example", dpi=300, bbox_inches='tight')
 plt.show()
-
 
